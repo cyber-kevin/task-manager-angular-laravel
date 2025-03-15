@@ -11,6 +11,8 @@ class Task extends Model
 {
     /** @use HasFactory<\Database\Factories\TaskFactory> */
     use HasFactory, SoftDeletes;
+    
+    protected $fillable = ['title', 'description', 'status', 'end_date', 'user_id'];
 
     public array $status = ['todo', 'doing', 'done', 'pending'];
 
