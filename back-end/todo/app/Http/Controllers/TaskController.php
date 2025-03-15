@@ -13,14 +13,13 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        // $tasks = Task::where('user_id', $request->user()->id)->get();
         $status = $request->query('status');
         
         if ($status != '' && !in_array($status, Task::$status)) {
             return response()->json(['message'=>'Invalid status.']);
         }
 
-        $tasks = Task::where('user_id', 1)
+        $tasks = Task::where('user_id', $request->user()->id)
         ->when($status, fn($query, $status)=>$query->where('status', $status))
         ->get();
 
@@ -37,10 +36,9 @@ class TaskController extends Controller
             'description'=>'required|string',
             'status'=>'required|in:todo,doing,done,pending',
             'end_date'=>'required|date',
-            'user_id'=>'required|exists:users,id'
         ]);
 
-        $task = Task::create($data);
+        $task = Task::create([...$data, 'user_id'=>$request->user()->id]);
 
         return response()->json($task, 201);
     }
