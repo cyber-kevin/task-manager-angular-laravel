@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->enum('status', ['todo', 'doing', 'done', 'pending']);
-            $table->dateTime('end_date');
-            $table->dateTime('excluded_at');
-            $table->foreignIdFor(User::class);
+            $table->enum('status', ['todo', 'doing', 'done', 'pending'])->default('todo');
+            $table->dateTime('end_date')->nullable();
+            $table->dateTime('deleted_at')->nullable();
+            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

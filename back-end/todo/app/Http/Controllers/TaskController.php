@@ -22,7 +22,10 @@ class TaskController extends Controller
     {
         $data = $request->validate([
             'title'=>'required|string|max:255',
-            'email'=>'required|email'
+            'description'=>'required|string',
+            'status'=>'required|in:todo, doing, done, pending',
+            'end_date'=>'required|date',
+            'user_id'=>'required|exists:users,id'
         ]);
 
         return response()->json($data);
