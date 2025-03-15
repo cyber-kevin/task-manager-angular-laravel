@@ -14,7 +14,7 @@ class Task extends Model
     
     protected $fillable = ['title', 'description', 'status', 'end_date', 'user_id'];
 
-    public array $status = ['todo', 'doing', 'done', 'pending'];
+    public static array $status = ['todo', 'doing', 'done', 'pending'];
 
     public function user(): HasOne {
         return $this->hasOne(User::class);
