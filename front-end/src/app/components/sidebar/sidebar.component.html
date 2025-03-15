@@ -1,0 +1,23 @@
+<div class="sidebar">
+    <h2>Nova tarefa</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="title">Título:</label>
+        <input type="text" id="title" [(ngModel)]="newTask.title" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Descrição:</label>
+        <textarea id="description" [(ngModel)]="newTask.description" name="description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <select id="status" [(ngModel)]="newTask.status" name="status" required>
+          <option value="todo">A Fazer</option>
+          <option value="in-progress">Em Progresso</option>
+          <option value="done">Concluído</option>
+          <option value="pending">Pendente</option>
+        </select>
+      </div>
+      <button type="submit">Adicionar</button>
+    </form>
+</div>

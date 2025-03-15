@@ -1,0 +1,18 @@
+<div class="container">
+
+    <app-sidebar></app-sidebar>
+  
+    <main>
+      <div class="task-board">
+        <div *ngFor="let column of columns" class="task-column">
+          <h3>{{ column.title }} - {{ getTasks(column.status).length }}</h3>
+          <div class="tasks-list">
+            <div *ngFor="let task of getTasks(column.status)" class="task-card">
+              <h4>{{ task.title }}</h4>
+              <p>{{ task.description || 'Sem descrição' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>  
+</div>
