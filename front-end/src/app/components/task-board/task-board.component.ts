@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Task } from '../../models/task';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import {MatIconModule} from '@angular/material/icon';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-task-board',
@@ -15,6 +15,8 @@ import {MatIconModule} from '@angular/material/icon';
   styleUrls: ['./task-board.component.css']
 })
 export class TaskBoardComponent implements OnInit{
+  private _snackBar = inject(MatSnackBar);
+
   tasks: any[] = [];
 
   columns = [
@@ -24,6 +26,7 @@ export class TaskBoardComponent implements OnInit{
     { title: 'ATRASADO', status: 'pending' as Task['status']},
   ];
 
+  
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
@@ -33,29 +36,45 @@ export class TaskBoardComponent implements OnInit{
   getTasks(): void {
     this.apiService.getTasks().subscribe({
       next: (tasks) => this.tasks = tasks,
-      error: (err) => console.error('Error loading tasks', err)
+      error: () => this.openNotification('Erro ao carregar tarefas')
     });
   }
 
   createTask(task: any): void {
+    if (!this.areFieldsFilled(task)) {
+      this.openNotification('Preencha todos os campos!', 2000);
+      return
+    }
+
+    this.openNotification('Tarefa criada');
+
     this.apiService.createTask(task).subscribe({
       next: () => this.getTasks(),
-      error: (err) => console.error('Error creating task', err)
+      error: () => this.openNotification('Erro ao criar tarefa')
     });
   }
 
   updateTask(task: any): void {
+    if (!this.areFieldsFilled(task)) {
+      this.openNotification('Preencha todos os campos!', 2000);
+      return
+    }
+
+    this.openNotification('Tarefa editada');
+
     this.closeEditing(task);
     this.apiService.updateTask(task.id, task).subscribe({
       next: () => this.getTasks(),
-      error: (err) => console.error('Error updating task', err)
+      error: () => this.openNotification('Erro ao editar tarefa')
     });
   }
 
   deleteTask(id: number): void {
+    this.openNotification('Tarefa excluída');
+
     this.apiService.deleteTask(id).subscribe({
       next: () => this.getTasks(),
-      error: (err) => console.error('Error deleting task', err)
+      error: () => this.openNotification('Erro ao excluir tarefa')
     });
   }
 
@@ -66,5 +85,17 @@ export class TaskBoardComponent implements OnInit{
   closeEditing(task: any): void {
     task.editingTitle= false;
     task.editingDescription = false;
+  }
+
+  openNotification(message: string, duration: number = 1000): void {
+    this._snackBar.open(message, '', {
+      duration: duration,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+  }
+
+  areFieldsFilled(task: any) {
+    return Object.values(task).every(value => value !== '');
   }
 }
