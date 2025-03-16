@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { TaskService } from '../../services/task.service';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../services/api.service';
 import { Task } from '../../models/task';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,31 +13,51 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   templateUrl: './task-board.component.html',
   styleUrls: ['./task-board.component.css']
 })
-export class TaskBoardComponent {
+export class TaskBoardComponent implements OnInit{
+  tasks: any[] = [];
+
   columns = [
     { title: 'A FAZER', status: 'todo' as Task['status'] },
-    { title: 'EM PROGRESSO', status: 'in-progress' as Task['status'] },
+    { title: 'EM PROGRESSO', status: 'doing' as Task['status'] },
     { title: 'CONCLUÍDO', status: 'done' as Task['status'] },
     { title: 'ATRASADO', status: 'pending' as Task['status']},
   ];
 
+  constructor(private apiService: ApiService) {}
 
-  constructor(private taskService: TaskService) {}
-
-  getTasks(status: Task['status']) {
-    return this.taskService.getTasksByStatus(status);
+  ngOnInit(): void {
+    this.getTasks();
   }
 
-  updateTask(id: number, task: Partial<Task>) {
-    
+  getTasks(): void {
+    this.apiService.getTasks().subscribe({
+      next: (tasks) => this.tasks = tasks,
+      error: (err) => console.error('Error loading tasks', err)
+    });
   }
 
-  deleteTask(id: number) {
-    
+  createTask(task: any): void {
+    this.apiService.createTask(task).subscribe({
+      next: () => this.getTasks(),
+      error: (err) => console.error('Error creating task', err)
+    });
   }
 
-  getTasksByUser(userId: number) {
-    
+  updateTask(task: any): void {
+    this.apiService.updateTask(task.id, task).subscribe({
+      next: () => this.getTasks(),
+      error: (err) => console.error('Error updating task', err)
+    });
   }
 
+  deleteTask(id: number): void {
+    this.apiService.deleteTask(id).subscribe({
+      next: () => this.getTasks(),
+      error: (err) => console.error('Error deleting task', err)
+    });
+  }
+
+  countTasksByStatus(status: string): number {
+    return this.tasks.filter(task => task.status === status).length;
+  }  
 }

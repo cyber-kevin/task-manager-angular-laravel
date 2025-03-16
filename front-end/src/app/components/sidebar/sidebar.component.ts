@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -8,18 +8,34 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+  @Output() taskCreated = new EventEmitter<any>();
+
   newTask = {
     title: '',
     description: '',
-    status: 'todo' as 'todo' | 'in-progress' | 'done' | 'pending'
+    status: 'todo' as 'todo' | 'in-progress' | 'done' | 'pending',
+    end_date: '',
   };
 
   onSubmit() {
-    console.log('Nova Tarefa:', this.newTask);
+    const formattedDateTime = this.formatDate(this.newTask.end_date);
+
+    this.taskCreated.emit({
+      ...this.newTask,
+    });
+
     this.newTask = {
       title: '',
       description: '',
-      status: 'todo'
+      status: 'todo',
+      end_date: ''
     };
+  }
+
+  formatDate(dateTime: string): string {
+    if (!dateTime) return '';
+    const [date, time] = dateTime.split('T');
+    const [year, month, day] = date.split('-');
+    return `${day}/${month}/${year} ${time}`;
   }
 }

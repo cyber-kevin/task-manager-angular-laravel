@@ -6,6 +6,6 @@ export interface Task {
   due_date: string;
   created_at: string;
   deleted_at?: string;
-  status: 'todo' | 'in-progress' | 'done' | 'pending';
+  status: 'todo' | 'doing' | 'done' | 'pending';
   completed: boolean;
 }
