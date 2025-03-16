@@ -4,12 +4,13 @@ import { Task } from '../../models/task';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-task-board',
   standalone: true,
-  imports: [CommonModule, FormsModule, SidebarComponent],
+  imports: [CommonModule, FormsModule, SidebarComponent, MatIconModule],
   templateUrl: './task-board.component.html',
   styleUrls: ['./task-board.component.css']
 })
@@ -44,6 +45,7 @@ export class TaskBoardComponent implements OnInit{
   }
 
   updateTask(task: any): void {
+    this.closeEditing(task);
     this.apiService.updateTask(task.id, task).subscribe({
       next: () => this.getTasks(),
       error: (err) => console.error('Error updating task', err)
@@ -60,4 +62,9 @@ export class TaskBoardComponent implements OnInit{
   countTasksByStatus(status: string): number {
     return this.tasks.filter(task => task.status === status).length;
   }  
+
+  closeEditing(task: any): void {
+    task.editingTitle= false;
+    task.editingDescription = false;
+  }
 }

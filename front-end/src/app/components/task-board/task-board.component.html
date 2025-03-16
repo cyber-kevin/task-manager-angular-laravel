@@ -1,20 +1,48 @@
 <div class="container">
-
-    <app-sidebar (taskCreated)="createTask($event)"></app-sidebar>
+  <app-sidebar (taskCreated)="createTask($event)"></app-sidebar>
   
-    <main>
-      <div class="task-board">
-        <div *ngFor="let column of columns" class="task-column">
-          <h3>{{ column.title }} - {{ countTasksByStatus(column.status) }}</h3>
-          <div class="tasks-list">
-            <div *ngFor="let task of this.tasks">
-              <div *ngIf="task.status === column.status" class="task-card">
-                <h4>{{ task.title }}</h4>
-                <p>{{ task.description || 'Sem descrição' }}</p>
+  <main>
+    <div class="task-board">
+      <div *ngFor="let column of columns" class="task-column">
+        <h3>{{ column.title }} - {{ countTasksByStatus(column.status) }}</h3>
+        <div class="tasks-list">
+          <div *ngFor="let task of tasks">
+            <div *ngIf="task.status === column.status" class="task-card">
+
+              <div (click)="task.editingTitle = true">
+                <div *ngIf="!task.editingTitle" class="task-title-box">
+                  <h4 class="task-title">{{ task.title }}</h4>
+                  <mat-icon fontIcon="cancel" class="material-icon close color_red" (click)="deleteTask(task.id); $event.stopPropagation();"></mat-icon>
+                </div>
+                <div *ngIf="task.editingTitle">
+                  <input 
+                    [(ngModel)]="task.title" 
+                    autofocus
+                    (keyup.enter)="updateTask(task)"
+                    />
+                </div>
+              </div>
+
+              <div (click)="task.editingDescription = true">
+                <div *ngIf="!task.editingDescription">
+                  <p class="task-description">{{ task.description || 'Sem descrição' }}</p>
+                </div>
+                <div *ngIf="task.editingDescription">
+                  <textarea 
+                    [(ngModel)]="task.description" 
+                    autofocus
+                    (keyup.enter)="updateTask(task)"
+                    ></textarea>
+                </div>
+              </div>
+
+              <div *ngIf="task.editingTitle || task.editingDescription">
+                <button (click)="updateTask(task)">Editar</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </main>  
+    </div>
+  </main>  
 </div>

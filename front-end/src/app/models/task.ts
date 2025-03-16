@@ -8,4 +8,6 @@ export interface Task {
   deleted_at?: string;
   status: 'todo' | 'doing' | 'done' | 'pending';
   completed: boolean;
+  editingTitle: boolean;
+  editingDescription: boolean;
 }
