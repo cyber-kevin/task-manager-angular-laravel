@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject,  signal, TemplateRef, WritableSignal } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Task } from '../../models/task';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import {MatIconModule} from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../services/auth.service';
+import { NgbDatepickerModule, NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-task-board',
@@ -17,6 +18,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class TaskBoardComponent implements OnInit{
   private _snackBar = inject(MatSnackBar);
+  private offcanvasService = inject(NgbOffcanvas);
+	closeResult: WritableSignal<string> = signal('');
 
   tasks: any[] = [];
 
@@ -27,12 +30,33 @@ export class TaskBoardComponent implements OnInit{
     { title: 'ATRASADO', status: 'pending' as Task['status']},
   ];
 
-  
   constructor(private apiService: ApiService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.getTasks();
   }
+
+  open(content: TemplateRef<any>) {
+		this.offcanvasService.open(content, { ariaLabelledBy: 'offcanvas-basic-title' }).result.then(
+			(result) => {
+				this.closeResult.set(`Closed with: ${result}`);
+			},
+			(reason) => {
+				this.closeResult.set(`Dismissed ${this.getDismissReason(reason)}`);
+			},
+		);
+	}
+
+	private getDismissReason(reason: any): string {
+		switch (reason) {
+			case OffcanvasDismissReasons.ESC:
+				return 'by pressing ESC';
+			case OffcanvasDismissReasons.BACKDROP_CLICK:
+				return 'by clicking on the backdrop';
+			default:
+				return `with: ${reason}`;
+		}
+	}
 
   getTasks(): void {
     this.apiService.getTasks().subscribe({

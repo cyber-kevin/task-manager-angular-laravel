@@ -1,9 +1,21 @@
-<div class="container">
-  <aside>
-    <app-sidebar (taskCreated)="createTask($event)"></app-sidebar>
-  </aside>
+<div class="content-container">
+  
+  <ng-template #content let-offcanvas>
+    <div class="offcanvas-header">
+      <h4 class="offcanvas-title" id="offcanvas-basic-title">Nova Tarefa</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body">
+      <app-sidebar (taskCreated)="createTask($event)"></app-sidebar>
+    </div>
+  </ng-template>
   
   <main>
+    <div class="action-container">
+      <button class="btn btn-lg btn-outline-primary" (click)="open(content)">
+        Nova Tarefa
+      </button>
+    </div>
     <div class="task-board">
       <div *ngFor="let column of columns" class="task-column">
         <h3>{{ column.title }} - {{ countTasksByStatus(column.status) }}</h3>

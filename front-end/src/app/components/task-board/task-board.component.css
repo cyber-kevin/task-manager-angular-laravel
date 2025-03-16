@@ -1,13 +1,5 @@
-aside {
-  display: flex;
-  flex-direction: column;
-}
-
-.container {
-  display: flex;
-  flex-grow: 1;
-  gap: 30px;
-  padding: 30px;
+main {
+  width: 100%;
 }
 
 .task-board {
@@ -17,15 +9,16 @@ aside {
   padding: 0;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding-bottom: 20px;
+  padding: 0px 30px;
+  padding-bottom: 30px;
 }
 
 .task-column {
+  flex: 1;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 15px;
   padding: 20px;
-  width: 300px;
-  min-width: 300px;
+  min-width: 350px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(6px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -89,19 +82,6 @@ aside {
   flex-direction: column;
 }
 
-button {
-  background: #1e3c72;
-  color: white;
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 100%;
-  font-size: 0.95em;
-}
-
 .tasks-list input,
 .tasks-list textarea {
   font-family: inherit;
@@ -125,20 +105,19 @@ button {
   padding: 8px 0 0 0;
 }
 
-button {
-  background: #1e3c72;
-  color: white;
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.action-container {
+  display: flex;
+  justify-content: end;
   width: 100%;
-  font-size: 0.95em;
+  padding: 30px;
 }
 
-button:hover {
+.action-container button {
+  background-color: #1e3c72;
+  color: white;
+}
+
+.action-container button:hover {
   background: #2a5298;
   transform: translateY(-1px);
 }
@@ -167,16 +146,8 @@ button:hover {
   margin-bottom: 10px;
 }
 
-.material-icon.large_icon {
-  font-size: 25pt;
-}
-
 .material-icon.color_red {
   color: #f44832;
-}
-
-.material-icon.color_grey {
-  color: #333333;
 }
 
 .task-card .material-icon {

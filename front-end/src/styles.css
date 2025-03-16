@@ -1,28 +1,25 @@
-html,
-body {
-  height: 100%;
-  width: 100%;
+*,
+*::after,
+*::before {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+html {
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+}
+
+body {
+  overflow-x: hidden;
+  background: linear-gradient(to right, #c4d2f1 0%, #70a5dd 100%);
+  color: #2a2a2a;
+  display: flex;
 }
 
 app-root {
-  display: block;
   width: 100%;
 }
-
-body {
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  background: linear-gradient(to right, #c4d2f1 0%, #70a5dd 100%);
-  color: #2a2a2a;
-  min-height: 100vh;
-  display: flex;
-}
-
-.container {
-  display: flex;
-  flex-grow: 1;
-  gap: 30px;
-  padding: 30px;
-}
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
