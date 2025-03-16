@@ -1,3 +1,8 @@
+aside {
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
   display: flex;
   flex-grow: 1;
@@ -162,8 +167,16 @@ button:hover {
   margin-bottom: 10px;
 }
 
+.material-icon.large_icon {
+  font-size: 25pt;
+}
+
 .material-icon.color_red {
   color: #f44832;
+}
+
+.material-icon.color_grey {
+  color: #333333;
 }
 
 .task-card .material-icon {

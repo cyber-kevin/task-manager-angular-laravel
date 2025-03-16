@@ -1,45 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from './api.service';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  private apiUrl = environment.apiUrl;
 
-  constructor(
-    private apiService: ApiService,
-    private router: Router
-  ) {
-    this.checkAuthStatus();
+  constructor(private router: Router, private http: HttpClient) {}
+
+  register(user: { username: string, email: string, password: string, password_confirmation: string }): Observable<any> {
+    console.log(user);
+    return this.http.post(`${this.apiUrl}/register`, user);
   }
 
-  private checkAuthStatus(): void {
-    const token = localStorage.getItem('token');
-    this.isAuthenticatedSubject.next(!!token);
-  }
-
-  login(email: string, password: string): void {
-    this.apiService.login(email, password).subscribe({
-      next: (response) => {
-        localStorage.setItem('token', response.token);
-        this.isAuthenticatedSubject.next(true);
-        this.router.navigate(['/']);
-      },
-      error: (err) => console.error('Login failed', err)
-    });
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, { email: email, password: password });
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    this.isAuthenticatedSubject.next(false);
+    localStorage.removeItem('access_token');
     this.router.navigate(['/login']);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('access_token');
   }
 }

@@ -1,0 +1,62 @@
+<div class="register-card">
+    <div class="register-header">
+      <h2>Cadastro</h2>
+    </div>
+    <div class="register-content">
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-field full-width">
+            <input
+              type="text"
+              id="name" 
+              [(ngModel)]="user.username"
+              name="name" 
+              placeholder="Nome de usuário" 
+              required
+            >
+        </div>
+
+        <div class="form-field full-width">
+          <input
+              type="text"
+              id="email" 
+              [(ngModel)]="user.email"
+              name="email" 
+              placeholder="E-mail" 
+              required
+            >
+        </div>
+  
+        <div class="form-field full-width">
+          <input
+              type="password"
+              id="password" 
+              [(ngModel)]="user.password"
+              name="password" 
+              placeholder="Senha" 
+              required
+            >
+        </div>
+
+        <div class="form-field full-width">
+          <input
+              type="password"
+              id="passwordConfirmation" 
+              [(ngModel)]="user.password_confirmation"
+              name="passwordConfirmation" 
+              placeholder="Confirmar senha" 
+              required
+            >
+        </div>
+  
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+  
+        <button type="submit" class="btn-primary">Cadastrar-se</button>
+        <span>
+            Já possui uma conta? <a routerLink="/login">Entre</a>
+        </span>
+      </form>
+    </div>
+  </div>
+  

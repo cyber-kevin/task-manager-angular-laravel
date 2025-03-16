@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import {MatIconModule} from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-task-board',
@@ -27,7 +28,7 @@ export class TaskBoardComponent implements OnInit{
   ];
 
   
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.getTasks();
@@ -97,5 +98,10 @@ export class TaskBoardComponent implements OnInit{
 
   areFieldsFilled(task: any) {
     return Object.values(task).every(value => value !== '');
+  }
+
+  redirectToLogout() {
+    this.openNotification('Saindo...')
+    this.authService.logout();
   }
 }
