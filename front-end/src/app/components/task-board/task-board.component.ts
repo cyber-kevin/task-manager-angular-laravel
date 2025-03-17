@@ -7,7 +7,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import {MatIconModule} from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../services/auth.service';
-import { NgbDatepickerModule, NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-task-board',
@@ -20,11 +20,13 @@ export class TaskBoardComponent implements OnInit{
   private _snackBar = inject(MatSnackBar);
   private offcanvasService = inject(NgbOffcanvas);
 	closeResult: WritableSignal<string> = signal('');
+  currentUser: string | null = null;
+  selectedTask: Task | null = null;
 
   tasks: any[] = [];
 
   columns = [
-    { title: 'A FAZER', status: 'todo' as Task['status'] },
+    { title: 'PARA FAZER', status: 'todo' as Task['status'] },
     { title: 'EM PROGRESSO', status: 'doing' as Task['status'] },
     { title: 'CONCLUÍDO', status: 'done' as Task['status'] },
     { title: 'ATRASADO', status: 'pending' as Task['status']},
@@ -33,6 +35,7 @@ export class TaskBoardComponent implements OnInit{
   constructor(private apiService: ApiService, private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.currentUser = localStorage.getItem('email');
     this.getTasks();
   }
 
@@ -46,6 +49,22 @@ export class TaskBoardComponent implements OnInit{
 			},
 		);
 	}
+
+  openEditSidebar(task: Task, content: TemplateRef<any>) {
+    this.selectedTask = task;
+    this.offcanvasService.open(content, { ariaLabelledBy: 'offcanvas-basic-title' });
+  }
+
+  openNewTaskSidebar(content: TemplateRef<any>) {
+    this.selectedTask = null;
+    this.offcanvasService.open(content, { ariaLabelledBy: 'offcanvas-basic-title' });
+  }
+
+  onTaskSaved(task: any) {
+    console.log(task);
+    task.id ? this.updateTask(task) : this.createTask(task);
+    this.selectedTask = null;
+  }
 
 	private getDismissReason(reason: any): string {
 		switch (reason) {
@@ -87,7 +106,6 @@ export class TaskBoardComponent implements OnInit{
 
     this.openNotification('Tarefa editada');
 
-    this.closeEditing(task);
     this.apiService.updateTask(task.id, task).subscribe({
       next: () => this.getTasks(),
       error: () => this.openNotification('Erro ao editar tarefa')

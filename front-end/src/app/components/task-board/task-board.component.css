@@ -40,6 +40,7 @@ main {
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
   transition: transform 0.2s ease;
+  cursor: pointer;
 }
 
 .task-title-box {
@@ -52,11 +53,6 @@ main {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.task-title,
-.task-description {
-  cursor: pointer;
 }
 
 .task-card:hover {
@@ -122,41 +118,11 @@ main {
   transform: translateY(-1px);
 }
 
-.delete-button {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: transparent;
-  border: none;
-  font-size: 1.2em;
-  cursor: pointer;
-  color: #e53e3e;
-}
-
-.delete-button:hover {
-  color: #c53030;
-}
-
-.material-icon.close {
-  padding: 5px;
-  position: absolute;
-  top: -3px;
-  right: -3px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.material-icon.color_red {
-  color: #f44832;
-}
-
-.task-card .material-icon {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.task-card:hover .material-icon {
-  opacity: 1;
+.email-container {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  margin-right: 35px;
 }
 
 .task-card:hover .task-title-box {

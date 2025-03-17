@@ -15,12 +15,12 @@
       <div class="form-group">
         <label for="status">Status:</label>
         <select id="status" [(ngModel)]="newTask.status" name="status" required>
-          <option value="todo">A Fazer</option>
-          <option value="in-progress">Em Progresso</option>
+          <option value="todo">Para Fazer</option>
+          <option value="doing">Em Progresso</option>
           <option value="done">Concluído</option>
           <option value="pending">Pendente</option>
         </select>
       </div>
-      <button type="submit">Adicionar</button>
+      <button type="submit">{{ task ? 'Salvar Alterações' : 'Adicionar' }}</button>
     </form>
 </div>
