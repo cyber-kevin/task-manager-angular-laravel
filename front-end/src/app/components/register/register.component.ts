@@ -44,6 +44,7 @@ export class RegisterComponent {
       })
     ).subscribe({
       next: (response) => {
+        localStorage.setItem('email', response.email);
         localStorage.setItem('access_token', response.access_token);
         this.router.navigate(['/home']);
       },
