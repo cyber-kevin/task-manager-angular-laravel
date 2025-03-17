@@ -12,10 +12,9 @@ main {
   flex-grow: 1;
   display: flex;
   gap: 25px;
-  padding: 0;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 0px 30px;
+  padding: 11px;
   padding-bottom: 30px;
 }
 
@@ -133,4 +132,31 @@ main {
 
 .task-card:hover .task-title-box {
   margin-top: 10px;
+}
+
+.task-board {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.task-column {
+  flex: 1 1 350px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 1200px) {
+  .task-column {
+    flex: 1 1 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .task-column {
+    flex: 1 1 100%;
+  }
 }
