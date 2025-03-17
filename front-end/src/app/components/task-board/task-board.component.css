@@ -15,6 +15,7 @@ main {
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 11px;
+  padding-right: 25px;
   padding-bottom: 30px;
 }
 
@@ -36,6 +37,17 @@ main {
   font-weight: 600;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.logout {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  font-weight: 700;
+  font-size: 10pt;
+  color: #000;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .task-card {
@@ -127,7 +139,7 @@ main {
   display: flex;
   align-items: center;
   font-weight: 600;
-  margin-right: 35px;
+  margin-right: 20px;
 }
 
 .task-card:hover .task-title-box {
@@ -158,5 +170,14 @@ main {
 @media (max-width: 768px) {
   .task-column {
     flex: 1 1 100%;
+  }
+  .email-container {
+    display: none;
+  }
+  .action-container {
+    justify-content: center;
+  }
+  .logout {
+    margin-left: 50px;
   }
 }

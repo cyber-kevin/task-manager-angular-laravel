@@ -24,6 +24,10 @@
       <button class="btn btn-lg btn-outline-primary" (click)="openNewTaskSidebar(content)">
         Nova Tarefa
       </button>
+      <a class="logout" (click)="redirectToLogout()">
+        <span>LOG OUT</span>  
+        <mat-icon fontIcon="logout"></mat-icon>
+      </a>
     </div>
     <div class="task-board">
       <div *ngFor="let column of columns" class="task-column">
