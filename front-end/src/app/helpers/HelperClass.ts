@@ -14,6 +14,7 @@ export class HelperClass {
       "The email has already been taken. (and 2 more error)": "Esse e-mail já está cadastrado.",
       "The password field must be at least 8 characters.": "A senha deve ter pelo menos 8 caracteres.",
       "The provided credentials are incorrect.": "Os dados informados estão incorretos.",
+      "The password field confirmation does not match.": "As senhas devem coincidir."
     };
   
     return errorMessagesMap[error.message];
